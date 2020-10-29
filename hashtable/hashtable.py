@@ -1,3 +1,6 @@
+import math
+import unittest
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -22,7 +25,9 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-
+        self.capacity = capacity * 10
+        self.storage = [None] * (capacity * 10)
+        self.size = 0 
 
     def get_num_slots(self):
         """
@@ -36,6 +41,8 @@ class HashTable:
         """
         # Your code here
 
+        return len(self.storage)
+
 
     def get_load_factor(self):
         """
@@ -44,7 +51,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        return float(self.size / self.get_num_slots())
 
     def fnv1(self, key):
         """
@@ -57,12 +64,29 @@ class HashTable:
 
 
     def djb2(self, key):
-        """
-        DJB2 hash, 32-bit
 
-        Implement this, and/or FNV-1.
-        """
-        # Your code here
+        hash = 5381
+        
+        for char in key:
+            unicode_point = ord(char)
+
+            hash = ((hash << 5) + hash) + unicode_point
+        
+        return hash
+
+    
+    """ Another implemenation of this algo """
+    """ def djb2(self, key):
+        
+        hash = 5381
+
+        for char in key:
+            unicode_point = ord(char)
+
+            hash = (hash * 33) + unicode_point
+
+        return hash """
+    
 
 
     def hash_index(self, key):
@@ -83,6 +107,12 @@ class HashTable:
         """
         # Your code here
 
+        new_hash_index = self.hash_index(key)
+
+        if self.storage[new_hash_index] == None:
+            self.size += 1
+
+        self.storage[new_hash_index] = value
 
     def delete(self, key):
         """
@@ -93,7 +123,15 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        new_hash_index = self.hash_index(key)
 
+        if self.storage[new_hash_index] != None:
+            self.size -= 1
+
+        self.storage[self.hash_index(key)] = None
+
+        return self.storage[self.hash_index(key)]
+        
 
     def get(self, key):
         """
@@ -104,7 +142,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        new_hash_index = self.hash_index(key)
 
+        return self.storage[new_hash_index]
+        
 
     def resize(self, new_capacity):
         """
@@ -115,7 +156,16 @@ class HashTable:
         """
         # Your code here
 
+        temp_storage = self.storage
 
+        self.storage = [None] * new_capacity
+        self.capacity = new_capacity
+
+        for item in temp_storage:
+            self.put("???", "???")
+
+    def __str__(self):
+            return f"Storage: {self.storage}"
 
 if __name__ == "__main__":
     ht = HashTable(8)
@@ -151,3 +201,28 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
+
+
+
+
+""" ht = HashTable(8)
+
+ht.put("key-0", "val-0")
+ht.put("key-1", "val-1")
+ht.put("key-2", "val-2")
+ht.put("key-3", "val-3")
+ht.put("key-4", "val-4")
+ht.put("key-5", "val-5")
+ht.put("key-6", "val-6")
+ht.put("key-7", "val-7")
+ht.put("key-8", "val-8")
+ht.put("key-9", "val-9")
+
+
+print(ht)
+
+
+ht.delete("key-0")
+print("should be None!!!!!!!!!", ht.get("key-0"))
+print("should be None!!!!!!!!!", type(ht.get("key-0")))
+print(ht) """

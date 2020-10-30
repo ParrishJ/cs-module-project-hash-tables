@@ -14,27 +14,27 @@ class LinkedList:
         currStr = ""
         curr = self.head
         while curr != None:
-            currStr += f'{str(curr.value)} ->'
+            currStr += f'{str(curr.value)} -> '
             curr = curr.next
         return currStr
 
-    def find(self, value):
+    def find(self, key):
         #returns node with value
         curr = self.head
         while curr != None:
-            if curr.value == value:
-                return curr
+            if curr.key == key:
+                return curr.value
             else:
                 curr = curr.next
         return None
 
 
-    def delete(self, value):
+    def delete(self, key):
         
         curr = self.head
 
         #special case if we need to delete the head
-        if curr.value == value:
+        if curr.key == key:
             self.head = curr.next
             curr.next = None
             return curr
@@ -44,7 +44,7 @@ class LinkedList:
         prev = None
 
         while curr != None:
-            if curr.value == value:
+            if curr.key == key:
                 prev.next = curr.next
                 curr.next = None
                 return None
@@ -65,7 +65,7 @@ class LinkedList:
         else:
             self.insert_at_head(node)
 
-a = Node(1)
+""" a = Node(1)
 b = Node(2)
 c = Node(3)
 
@@ -74,7 +74,7 @@ ll = LinkedList()
 ll.insert_at_head(a)
 ll.insert_at_head(b)
 ll.insert_at_head(c)
-print(ll)
+print(ll) """
 
 
 class HashTableEntry:
@@ -186,10 +186,25 @@ class HashTable:
 
         new_hash_index = self.hash_index(key)
 
-        if self.storage[new_hash_index] == None:
+        """ if self.storage[new_hash_index] == None:
             self.size += 1
 
-        self.storage[new_hash_index] = value
+        self.storage[new_hash_index] = value """
+
+        # With collision resolution
+        # If no linked list implemented, implement linked list, attach with reference (insert reference into hashed index), add node to head 
+        # If linked list implemented, insert_at_head_or_overwrite
+
+        if self.storage[new_hash_index] == None:
+            new_list = LinkedList()
+            new_list.insert_at_head(HashTableEntry(key, value))
+            self.storage[new_hash_index] = new_list
+            self.size += 1
+        else:
+            self.storage[new_hash_index].insert_at_head_or_overwrite(HashTableEntry(key, value))
+            self.size += 1
+
+
 
     def delete(self, key):
         #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!check to see if load factor is less than 0.2, resize to half if so 
@@ -204,14 +219,15 @@ class HashTable:
         new_hash_index = self.hash_index(key)
 
         if self.storage[new_hash_index] != None:
+            self.storage[new_hash_index].delete(key)
             self.size -= 1
 
         if self.storage[new_hash_index] == None:
             print("No Key Found")
 
-        self.storage[self.hash_index(key)] = None
+        # self.storage[self.hash_index(key)] = None
 
-        return self.storage[self.hash_index(key)]
+        # return self.storage[self.hash_index(key)]
         
 
     def get(self, key):
@@ -225,7 +241,7 @@ class HashTable:
         # Your code here
         new_hash_index = self.hash_index(key)
 
-        return self.storage[new_hash_index]
+        return self.storage[new_hash_index].find(key)
         
 
     def resize(self, new_capacity):
@@ -236,14 +252,17 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # first make new list, set to new_storage
+        # then run logic copying everything from curr storage to new storage
+        # then reassign self.storage at end. 
 
-        temp_storage = self.storage
+        """ temp_storage = self.storage
 
         self.storage = [None] * new_capacity
         self.capacity = new_capacity
 
         for item in temp_storage:
-            self.put("???", "???")
+            self.put("???", "???") """
 
     def __str__(self):
             return f"Storage: {self.storage}"
@@ -286,9 +305,11 @@ if __name__ == "__main__":
 
 
 
-""" ht = HashTable(8)
+ht = HashTable(8)
+
 
 ht.put("key-0", "val-0")
+
 ht.put("key-1", "val-1")
 ht.put("key-2", "val-2")
 ht.put("key-3", "val-3")
@@ -298,9 +319,12 @@ ht.put("key-6", "val-6")
 ht.put("key-7", "val-7")
 ht.put("key-8", "val-8")
 ht.put("key-9", "val-9")
+print('ht', ht)
+ht.delete("key-5")
+print('get key one', ht.get("key-1"))
+print('ht', ht)
 
-
-print(ht)
+""" print(ht)
 
 
 ht.delete("key-0")

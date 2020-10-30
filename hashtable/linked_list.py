@@ -28,7 +28,6 @@ class LinkedList:
 
     def delete(self, value):
         
-        
         curr = self.head
 
         #special case if we need to delete the head
@@ -36,7 +35,6 @@ class LinkedList:
             self.head = curr.next
             curr.next = None
             return curr
-
 
         # General case ( we are not removing from head )
         prev = None
@@ -63,7 +61,7 @@ class LinkedList:
         else:
             self.insert_at_head(node)
 
-a = Node(1)
+""" a = Node(1)
 b = Node(2)
 c = Node(3)
 
@@ -72,4 +70,4 @@ ll = LinkedList()
 ll.insert_at_head(a)
 ll.insert_at_head(b)
 ll.insert_at_head(c)
-print(ll.head)
+print(ll.head) """

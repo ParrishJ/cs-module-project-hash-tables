@@ -1,6 +1,82 @@
 import math
 import unittest
 
+class Node:
+    def __init__(self, value):
+        self.value = value
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def __repr__(self):
+        currStr = ""
+        curr = self.head
+        while curr != None:
+            currStr += f'{str(curr.value)} ->'
+            curr = curr.next
+        return currStr
+
+    def find(self, value):
+        #returns node with value
+        curr = self.head
+        while curr != None:
+            if curr.value == value:
+                return curr
+            else:
+                curr = curr.next
+        return None
+
+
+    def delete(self, value):
+        
+        curr = self.head
+
+        #special case if we need to delete the head
+        if curr.value == value:
+            self.head = curr.next
+            curr.next = None
+            return curr
+
+
+        # General case ( we are not removing from head )
+        prev = None
+
+        while curr != None:
+            if curr.value == value:
+                prev.next = curr.next
+                curr.next = None
+                return None
+            else:
+                prev = curr 
+                curr = prev.next
+
+        return None
+
+    def insert_at_head(self, node):
+        node.next = self.head
+        self.head = node
+
+    def insert_at_head_or_overwrite(self, node):
+        existing_node = self.find(node.value)
+        if existing_node != None:
+            existing_node.value = node.value
+        else:
+            self.insert_at_head(node)
+
+a = Node(1)
+b = Node(2)
+c = Node(3)
+
+ll = LinkedList()
+
+ll.insert_at_head(a)
+ll.insert_at_head(b)
+ll.insert_at_head(c)
+print(ll)
+
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -25,8 +101,8 @@ class HashTable:
 
     def __init__(self, capacity):
         # Your code here
-        self.capacity = capacity * 10
-        self.storage = [None] * (capacity * 10)
+        self.capacity = capacity
+        self.storage = [None] * capacity
         self.size = 0 
 
     def get_num_slots(self):
@@ -72,7 +148,7 @@ class HashTable:
 
             hash = ((hash << 5) + hash) + unicode_point
         
-        return hash
+        return hash & 0xffffffff
 
     
     """ Another implemenation of this algo """
@@ -98,6 +174,7 @@ class HashTable:
         return self.djb2(key) % self.capacity
 
     def put(self, key, value):
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!check to see if load factor is greater than 0.7, resize to double if so 
         """
         Store the value with the given key.
 
@@ -115,6 +192,7 @@ class HashTable:
         self.storage[new_hash_index] = value
 
     def delete(self, key):
+        #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!check to see if load factor is less than 0.2, resize to half if so 
         """
         Remove the value stored with the given key.
 
@@ -127,6 +205,9 @@ class HashTable:
 
         if self.storage[new_hash_index] != None:
             self.size -= 1
+
+        if self.storage[new_hash_index] == None:
+            print("No Key Found")
 
         self.storage[self.hash_index(key)] = None
 

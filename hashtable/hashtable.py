@@ -230,7 +230,23 @@ class HashTable:
             else: 
                 self.storage[new_hash_index].delete(key)
             self.size -= 1
-        return None
+        
+        #if self.capacity at 8, do not resize - just return
+        if self.capacity == 8:
+            return None
+
+        
+        elif self.capacity != 8 and self.get_load_factor() < 0.2:
+            if (self.capacity / 2) < 8:
+                new_capacity = 8
+            else:
+                new_capacity = self.capacity // 2
+
+            self.resize(new_capacity)
+            return None
+            
+        else: 
+            return None
 
         
 
@@ -339,6 +355,28 @@ if __name__ == "__main__":
 
 
 
-
-
-
+ht = HashTable(16)
+ht.put("key-0", "val-0")
+ht.put("key-1", "val-1")
+ht.put("key-2", "val-2")
+ht.put("key-3", "val-3")
+ht.put("key-4", "val-4")
+print(ht)
+print(ht.size)
+print(ht.capacity)
+print(ht.get_load_factor())
+ht.delete("key-4")
+print(ht)
+print(ht.size)
+print(ht.capacity)
+print(ht.get_load_factor())
+ht.delete("key-0")
+print(ht)
+print(ht.size)
+print(ht.capacity)
+print(ht.get_load_factor())
+ht.delete("key-1")
+print(ht)
+print(ht.size)
+print(ht.capacity)
+print(ht.get_load_factor())

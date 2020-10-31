@@ -212,12 +212,18 @@ class HashTable:
         # Your code here
         new_hash_index = self.hash_index(key)
 
-        if self.storage[new_hash_index] != None:
-            self.storage[new_hash_index].delete(key)
-            self.size -= 1
-
         if self.storage[new_hash_index] == None:
             print("No Key Found")
+
+        elif self.storage[new_hash_index] != None:
+            
+            if self.storage[new_hash_index].head.next == None:
+                self.storage[self.hash_index(key)] = None
+            else: 
+                self.storage[new_hash_index].delete(key)
+            self.size -= 1
+        return None
+        
 
         # self.storage[self.hash_index(key)] = None
 
@@ -234,9 +240,16 @@ class HashTable:
         """
         # Your code here
         new_hash_index = self.hash_index(key)
-        node = self.storage[new_hash_index].find(key)
+        
+        if self.storage[new_hash_index] == None:
+            return None
+        else:
+            node = self.storage[new_hash_index].find(key)
+            if node == None:
+                return None
+            else:
 
-        return node.value
+                return node.value
         
 
     def resize(self, new_capacity):
@@ -330,10 +343,18 @@ ht.put("key-6", "val-6")
 ht.put("key-7", "val-7")
 ht.put("key-8", "val-8")
 ht.put("key-9", "val-9")
-ht.put("key-10", "val-10")
-ht.put("key-10", "val-!!!!!")
-print(ht.size)
+
 print(ht)
+ht.delete("key-7")
+ht.delete("key-6")
+ht.delete("key-5")
+ht.delete("key-4")
+ht.delete("key-3")
+ht.delete("key-2")
+ht.delete("key-1")
+ht.delete("key-0")
+print(ht)
+print(ht.get("key-0"))
 
 
 

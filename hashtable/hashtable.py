@@ -172,7 +172,8 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        
+            
         new_hash_index = self.hash_index(key)
 
         """ if self.storage[new_hash_index] == None:
@@ -184,20 +185,26 @@ class HashTable:
         # If no linked list implemented, implement linked list, attach with reference (insert reference into hashed index), add node to head 
         # If linked list implemented, insert_at_head_or_overwrite
 
+        
+
         if self.storage[new_hash_index] == None:
             new_list = LinkedList()
             new_list.insert_at_head(HashTableEntry(key, value))
             self.storage[new_hash_index] = new_list
-            self.size += 1 
+            self.size += 1
+             
         else:
             """ if self.storage[new_hash_index].find(key) != None:
                 self.size += 1 """
             if self.storage[new_hash_index].find(key) == None:
                 self.size += 1
             self.storage[new_hash_index].insert_at_head_or_overwrite(HashTableEntry(key, value))
-            
-            
 
+        if self.get_load_factor() > 0.7:
+            self.resize(self.capacity * 2)
+        #Tests load factor - sees if table needs resizing
+        
+        
 
 
     def delete(self, key):
@@ -210,10 +217,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        # Checks to see if table needs resize:
-
-
-
+      
         new_hash_index = self.hash_index(key)
 
         if self.storage[new_hash_index] == None:
@@ -278,7 +282,8 @@ class HashTable:
         
         temp_storage = self.storage
         self.capacity = new_capacity
-        self.storage = [None] * self.capacity 
+        self.size = 0
+        self.storage = [None] * new_capacity
         
 
 
@@ -330,8 +335,6 @@ if __name__ == "__main__":
         print(ht.get(f"line_{i}"))
 
     print("")
-
-
 
 
 

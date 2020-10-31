@@ -210,6 +210,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        # Checks to see if table needs resize:
+
+
+
         new_hash_index = self.hash_index(key)
 
         if self.storage[new_hash_index] == None:
@@ -223,6 +227,7 @@ class HashTable:
                 self.storage[new_hash_index].delete(key)
             self.size -= 1
         return None
+
         
 
         # self.storage[self.hash_index(key)] = None
@@ -248,7 +253,6 @@ class HashTable:
             if node == None:
                 return None
             else:
-
                 return node.value
         
 
@@ -273,7 +277,7 @@ class HashTable:
             self.put("???", "???") """
         
         temp_storage = self.storage
-        self.capacity *= 2
+        self.capacity = new_capacity
         self.storage = [None] * self.capacity 
         
 
@@ -330,31 +334,7 @@ if __name__ == "__main__":
 
 
 
-ht = HashTable(8)
 
-
-ht.put("key-0", "val-0")
-ht.put("key-1", "val-1")
-ht.put("key-2", "val-2")
-ht.put("key-3", "val-3")
-ht.put("key-4", "val-4")
-ht.put("key-5", "val-5")
-ht.put("key-6", "val-6")
-ht.put("key-7", "val-7")
-ht.put("key-8", "val-8")
-ht.put("key-9", "val-9")
-
-print(ht)
-ht.delete("key-7")
-ht.delete("key-6")
-ht.delete("key-5")
-ht.delete("key-4")
-ht.delete("key-3")
-ht.delete("key-2")
-ht.delete("key-1")
-ht.delete("key-0")
-print(ht)
-print(ht.get("key-0"))
 
 
 

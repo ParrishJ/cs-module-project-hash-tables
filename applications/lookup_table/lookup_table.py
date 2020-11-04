@@ -12,6 +12,10 @@ Initialize a cache with an empty dictionary
 If x,y combination already in cache, just do a lookup
 Else, store x,y values in cashe as tuple, run function and return value 
 
+or
+
+Make cache with all possible values ahead of time and then just use slowfun() to look values up from cache
+
 """
 
 """ def slowfun_too_slow(x, y):

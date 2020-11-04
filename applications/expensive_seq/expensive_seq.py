@@ -1,9 +1,27 @@
+""" UNDERSTAND
+
+We'll be using a chache to look up values that have already been computed with the expensive sequence to make the function run faster
+
+PLAN
+
+Initialize cache
+Using a recursive implementation of the expensive_seq, if (x, y, z) is already in the cache, simply return cache[(x, y, z)]
+else, enter expensive_seq[(x, y, z)] into the cache and then look up and return that value """
+
+
 # Your code here
 
-
+cache = {}
 def expensive_seq(x, y, z):
     # Your code here
-
+    if x <= 0:  
+        return y + z
+    if (x, y, z) in cache:
+        return cache[(x, y, z)]
+    
+    if x > 0:
+        cache[(x, y, z)] = expensive_seq(x-1,y+1,z) + expensive_seq(x-2,y+2,z*2) + expensive_seq(x-3,y+3,z*3) 
+        return cache[(x, y, z)]
 
 
 if __name__ == "__main__":

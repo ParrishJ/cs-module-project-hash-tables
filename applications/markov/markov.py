@@ -1,6 +1,15 @@
 import random
 
-""" PLAN
+""" 
+UNDERSTAND
+
+A markov chains are sequences of words that appear to look gramatically correct but are in fact nonsensical.
+We can generate a markov chain by creating a dictionary of words where the values of the dictionary are the words
+that follow the keys in the dictionary as they appear in the original text.
+
+We can use this dictionary and some helper methods to create our markov chain
+
+PLAN
 
 We'll split the words that we read from the document into an array. We'll then push all unique words as keys to our dictionary.
 (we may have to account for punctuation in our words.) We'll then reitterate through our words list, adding the word after each word

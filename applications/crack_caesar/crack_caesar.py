@@ -3,7 +3,7 @@
 UNDERSTAND
 
 We need to decrypt the text by analyzing the freqency of the appearance of all characters in the text
-We can then work backwards to use these frequencies to decrypt the characters in the text. 
+We can then use these frequencies to decrypt the characters in the text. 
 
 
 PLAN 
